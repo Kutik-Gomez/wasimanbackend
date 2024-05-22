@@ -3,19 +3,19 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export const consultar = async (req, res) => {
-  const consulta = await prisma.usuarios.findMany();
+  const consulta = await prisma.usuario.findMany();
   res.json(consulta);
 };
 
 export const guardar = async (req, res) => {
-  const crear = await prisma.usuarios.create({
+  const crear = await prisma.usuario.create({
     data: req.body,
   });
   res.json(crear);
 };
 
 export const actualizar = async (req, res) => {
-  const actualiza = await prisma.usuarios.update({
+  const actualiza = await prisma.usuario.update({
     where: {
       id: parseInt(req.params.id),
     },
@@ -25,7 +25,7 @@ export const actualizar = async (req, res) => {
 };
 
 export const eliminar = async (req, res) => {
-  const elimina = await prisma.usuarios.delete({
+  const elimina = await prisma.usuario.delete({
     where: {
       id: parseInt(req.params.id),
     },
@@ -35,7 +35,7 @@ export const eliminar = async (req, res) => {
 
 export const buscador = async (req, res) => {
   const nombre = req.params.nombre.toLowerCase();
-  const busca = await prisma.usuarios.findMany({
+  const busca = await prisma.usuario.findMany({
     where: {
       nombre: {
         contains: nombre,
