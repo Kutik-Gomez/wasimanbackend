@@ -1,0 +1,22 @@
+{
+  "name": "wasiman",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon src/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "prisma": "^5.14.0"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.14.0",
+    "D": "^1.0.0",
+    "express": "^4.19.2",
+    "nodemon": "^3.1.0"
+  }
+}
