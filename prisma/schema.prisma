@@ -7,9 +7,31 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model usuarios{
-  id Int @id @default(autoincrement())
-  nombre String
-  email String @unique
-  clave String 
+model Usuario {
+  id        Int      @id @default(autoincrement())
+  nombre    String
+  email     String   @unique
+  clave     String
+  reservas  Reserva[]
+}
+
+model Viaje {
+  id                Int       @id @default(autoincrement())
+  origen            String
+  destino           String
+  fechaHoraSalida   DateTime
+  puntosRecogida    String
+  capacidadAsientos Int
+  detalles          String?
+  reservas          Reserva[]
+}
+
+model Reserva {
+  id             Int      @id @default(autoincrement())
+  usuarioId      Int
+  viajeId        Int
+  fechaHoraReserva DateTime
+  estadoReserva  String
+  usuario        Usuario  @relation(fields: [usuarioId], references: [id])
+  viaje          Viaje    @relation(fields: [viajeId], references: [id])
 }
