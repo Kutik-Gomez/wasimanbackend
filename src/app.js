@@ -13,7 +13,7 @@ app.use(
     secret: "tu-secreto-aqui",
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false }, // Asegúrate de usar true si estás en producción y usando HTTPS
+    cookie: { secure: true }, // Asegúrate de usar true si estás en producción y usando HTTPS
   })
 );
 //Rutas
