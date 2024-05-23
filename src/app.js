@@ -5,18 +5,16 @@ import usuariosRoutes from "./routes/usuarios.routes.js";
 import viajesRoutes from "./routes/viajes.routes.js";
 import reservasRoutes from "./routes/reservas.routes.js";
 import { errorHandler } from './middlewares/errorHandler.js';
-import cookieParser from 'cookie-parser';
 
 const app = express();
 app.use(express.json());
-app.use(cookieParser());
 
 app.use(
   session({
-    secret: "tu-secreto-aqui1",
+    secret: "tu-secreto-aqui",
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false }, // Asegúrate de usar true si estás en producción y usando HTTPS
+    cookie: { secure: true }, // Asegúrate de usar true si estás en producción y usando HTTPS
   })
 );
 
