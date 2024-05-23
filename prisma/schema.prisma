@@ -8,30 +8,31 @@ datasource db {
 }
 
 model Usuario {
-  id        Int      @id @default(autoincrement())
-  nombre    String
-  email     String   @unique
-  clave     String
-  reservas  Reserva[]
+  id       Int       @id @default(autoincrement())
+  nombre   String
+  email    String    @unique
+  clave    String
+  reservas Reserva[]
 }
 
 model Viaje {
   id                Int       @id @default(autoincrement())
-  origen            String
-  destino           String
-  fechaHoraSalida   DateTime
+  destino           String?
+  fechaSalida       DateTime
+  horaSalida        DateTime
   puntosRecogida    String
   capacidadAsientos Int
   detalles          String?
+  disponible        Boolean
   reservas          Reserva[]
 }
 
 model Reserva {
-  id             Int      @id @default(autoincrement())
-  usuarioId      Int
-  viajeId        Int
+  id              Int      @id @default(autoincrement())
+  usuarioId       Int
+  viajeId         Int
   fechaHoraReserva DateTime
-  estadoReserva  String
-  usuario        Usuario  @relation(fields: [usuarioId], references: [id])
-  viaje          Viaje    @relation(fields: [viajeId], references: [id])
+  estadoReserva   String
+  usuario         Usuario  @relation(fields: [usuarioId], references: [id])
+  viaje           Viaje    @relation(fields: [viajeId], references: [id])
 }
