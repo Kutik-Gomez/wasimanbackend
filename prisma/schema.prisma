@@ -18,8 +18,8 @@ model Usuario {
 model Viaje {
   id                Int       @id @default(autoincrement())
   destino           String?
-  fechaSalida       DateTime
-  horaSalida        DateTime
+  fechaSalida       String
+  horaSalida        String
   puntosRecogida    String
   capacidadAsientos Int
   detalles          String?
