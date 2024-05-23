@@ -2,7 +2,6 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-// Obtener todas las reservas
 export const consultar = async (req, res) => {
   try {
     const reservas = await prisma.reserva.findMany({
@@ -17,7 +16,6 @@ export const consultar = async (req, res) => {
   }
 };
 
-// Crear una nueva reserva
 export const guardar = async (req, res) => {
   try {
     const reserva = await prisma.reserva.create({
@@ -34,7 +32,6 @@ export const guardar = async (req, res) => {
   }
 };
 
-// Actualizar una reserva existente
 export const actualizar = async (req, res) => {
   try {
     const reserva = await prisma.reserva.update({
@@ -47,7 +44,6 @@ export const actualizar = async (req, res) => {
   }
 };
 
-// Eliminar una reserva existente
 export const eliminar = async (req, res) => {
   try {
     const reserva = await prisma.reserva.delete({
@@ -59,7 +55,6 @@ export const eliminar = async (req, res) => {
   }
 };
 
-// Buscar reservas por usuarioId
 export const buscarPorUsuario = async (req, res) => {
   try {
     const reservas = await prisma.reserva.findMany({
@@ -74,7 +69,6 @@ export const buscarPorUsuario = async (req, res) => {
   }
 };
 
-// Buscar reservas por viajeId
 export const buscarPorViaje = async (req, res) => {
   try {
     const reservas = await prisma.reserva.findMany({
@@ -86,5 +80,66 @@ export const buscarPorViaje = async (req, res) => {
     res.json(reservas);
   } catch (error) {
     res.status(500).json({ error: "Error al buscar reservas por viaje" });
+  }
+};
+
+export const createReserva = async (req, res) => {
+  const { viajeId, estadoReserva } = req.body;
+  const usuarioId = req.session.userId;
+  const fechaHoraReserva = new Date();
+
+  try {
+    const reserva = await prisma.reserva.create({
+      data: {
+        usuarioId,
+        viajeId,
+        fechaHoraReserva,
+        estadoReserva,
+      },
+    });
+    res.status(201).json(reserva);
+  } catch (error) {
+    res.status(500).json({ error: "Error al crear la reserva" });
+  }
+};
+
+export const getReservas = async (req, res) => {
+  const usuarioId = req.session.userId;
+
+  try {
+    const reservas = await prisma.reserva.findMany({
+      where: { usuarioId },
+      include: {
+        viaje: true,
+      },
+    });
+    res.status(200).json(reservas);
+  } catch (error) {
+    res.status(500).json({ error: "Error al obtener las reservas" });
+  }
+};
+
+export const deleteReserva = async (req, res) => {
+  const usuarioId = req.session.userId;
+  const reservaId = parseInt(req.params.id);
+
+  try {
+    const reserva = await prisma.reserva.findUnique({
+      where: { id: reservaId },
+    });
+
+    if (!reserva || reserva.usuarioId !== usuarioId) {
+      return res
+        .status(403)
+        .json({ error: "No tienes permiso para eliminar esta reserva" });
+    }
+
+    await prisma.reserva.delete({
+      where: { id: reservaId },
+    });
+
+    res.status(200).json({ message: "Reserva eliminada correctamente" });
+  } catch (error) {
+    res.status(500).json({ error: "Error al eliminar la reserva" });
   }
 };

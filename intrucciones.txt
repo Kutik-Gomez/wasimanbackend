@@ -8,3 +8,6 @@ npx prisma migrate dev --name init
 npm i nodemon D
 
 npm i  cors cookie session sequelize jsonwebtokenbcryptjs
+
+//Instalar las cookies para que funcione bien el login y que pueda seleccionar 
+npm install cookie-parser

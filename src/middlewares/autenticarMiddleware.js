@@ -13,6 +13,16 @@ export const estaAutorizado = (req, res, next) => {
   if (usuarioId === perfilId) {
     return next();
   } else {
-    res.status(403).json({ error: 'No tienes permiso para realizar esta acción' });
+    res
+      .status(403)
+      .json({ error: "No tienes permiso para realizar esta acción" });
+  }
+};
+
+export const estaAutenticadoBueno = (req, res, next) => {
+  if (req.session && req.session.userId) {
+    next();
+  } else {
+    res.status(401).json({ error: "No autorizado" });
   }
 };
